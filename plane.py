@@ -28,7 +28,7 @@ bomb_sprites = pygame.sprite.GroupSingle()
 flame_sprites = pygame.sprite.Group()
 enemy_sprites = pygame.sprite.Group()
 rocket_sprites = pygame.sprite.Group()
-explosion_sprites = pygame.sprite.GroupSingle()
+explosion_sprites = pygame.sprite.Group()
 
 # Liste für einblendbare Texte
 texte = []
@@ -373,16 +373,16 @@ while True:
         texte.append(text)
     
     # enemy - plane
-    for enemy in pygame.sprite.groupcollide(enemy_sprites, plane_sprites, True, False):
-        plane_sound.stop()
-        breakdown_sound.play()
-        
-        explosion = Explosion()
-        explosion_sprites.add(explosion)
-        explosion.xspeed = enemy.xspeed
-        flame = Flame()
-        flame_sprites.add(flame)
-        dead = True
+    if dead == False:
+        for enemy in pygame.sprite.groupcollide(enemy_sprites, plane_sprites, True, False):
+            plane_sound.stop()
+            breakdown_sound.play()
+            explosion = Explosion()
+            explosion_sprites.add(explosion)
+            explosion.xspeed = enemy.xspeed
+            flame = Flame()
+            flame_sprites.add(flame)
+            dead = True
         
     # rocket - plane
         
