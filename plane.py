@@ -50,10 +50,10 @@ breakdown_sound = pygame.mixer.Sound('sounds/breakdown.wav')
 bomb_sound = pygame.mixer.Sound('sounds/bomb.wav')
 
 # Hintergrundbilder laden
-sky = pygame.image.load('sprite/png/background/sky.png').convert()
-farground = pygame.image.load('sprite/png/background/farground_mountains.png').convert_alpha()
-midground = pygame.image.load('sprite/png/background/midground_mountains.png').convert_alpha()
-foreground = pygame.image.load('sprite/png/background/foreground_mountains.png').convert_alpha()
+sky = pygame.image.load('graphics/background/sky.png').convert()
+farground = pygame.image.load('graphics/background//farground_mountains.png').convert_alpha()
+midground = pygame.image.load('graphics/background//midground_mountains.png').convert_alpha()
+foreground = pygame.image.load('graphics/background/foreground_mountains.png').convert_alpha()
 
 far_x = 0
 mid_x = 0
@@ -63,14 +63,14 @@ fore_x = 0
 class Plane(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.images = [pygame.image.load('sprite\png\Plane\Fly (1)50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\Plane\Fly (2)50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\Plane\Shoot (1)50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\Plane\Shoot (2)50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\Plane\Shoot (3)50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\Plane\Shoot (4)50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\Plane\Shoot (5)50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\Plane\Dead (1)50.png').convert_alpha()]
+        self.images = [pygame.image.load('graphics/plane/fly_1.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/fly_2.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/shoot_1.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/shoot_2.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/shoot_3.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/shoot_4.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/shoot_5.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/dead_1.png').convert_alpha()]
                       
         self.index = 0
         self.image = self.images[self.index]
@@ -98,7 +98,7 @@ class Plane(pygame.sprite.Sprite):
 class Bullet(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('sprite/png/Bullet/bullet.png').convert_alpha()
+        self.image = pygame.image.load('graphics/ammo/bullet.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.centerx = xpos + 180
         self.rect.centery = ypos + 111
@@ -113,7 +113,7 @@ class Bullet(pygame.sprite.Sprite):
 class Bomb(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('sprite/png/Bullet/bomb.png').convert_alpha()
+        self.image = pygame.image.load('graphics/ammo/bomb.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.drop = False
         self.visible = True
@@ -131,10 +131,10 @@ class Bomb(pygame.sprite.Sprite):
 class Rocket(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.images = [pygame.image.load('sprite/png/Bullet/rocket_0.png').convert_alpha(),
-                       pygame.image.load('sprite/png/Bullet/rocket_1.png').convert_alpha(),
-                       pygame.image.load('sprite/png/Bullet/rocket_2.png').convert_alpha(),
-                       pygame.image.load('sprite/png/Bullet/rocket_3.png').convert_alpha()]
+        self.images = [pygame.image.load('graphics/ammo/rocket_0.png').convert_alpha(),
+                       pygame.image.load('graphics/ammo/rocket_1.png').convert_alpha(),
+                       pygame.image.load('graphics/ammo/rocket_2.png').convert_alpha(),
+                       pygame.image.load('graphics/ammo/rocket_3.png').convert_alpha()]
         
         self.index = 0
         self.image = self.images[self.index]
@@ -166,10 +166,10 @@ class Rocket(pygame.sprite.Sprite):
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.images = [pygame.image.load('sprite\png\enemy\enemy_yellow.png').convert_alpha(),
-                       pygame.image.load('sprite\png\enemy\enemy_red.png').convert_alpha(),
-                       pygame.image.load('sprite\png\enemy\enemy_2_yellow.png').convert_alpha(),
-                       pygame.image.load('sprite\png\enemy\enemy_2_red.png').convert_alpha()]
+        self.images = [pygame.image.load('graphics/enemy/enemy_yellow.png').convert_alpha(),
+                       pygame.image.load('graphics/enemy/enemy_red.png').convert_alpha(),
+                       pygame.image.load('graphics/enemy/enemy_2_yellow.png').convert_alpha(),
+                       pygame.image.load('graphics/enemy/enemy_2_red.png').convert_alpha()]
         
         self.index = randint(0, 3)
         self.image = self.images[self.index]
@@ -187,15 +187,15 @@ class Enemy(pygame.sprite.Sprite):
 class Explosion(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.images = [pygame.image.load('sprite\png\explosion\explosion_01_50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\explosion\explosion_02_50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\explosion\explosion_03_50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\explosion\explosion_04_50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\explosion\explosion_05_50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\explosion\explosion_06_50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\explosion\explosion_07_50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\explosion\explosion_08_50.png').convert_alpha(),
-                       pygame.image.load('sprite\png\explosion\explosion_09_50.png').convert_alpha()]
+        self.images = [pygame.image.load('graphics/explosion/explosion_01.png').convert_alpha(),
+                       pygame.image.load('graphics/explosion/explosion_02.png').convert_alpha(),
+                       pygame.image.load('graphics/explosion/explosion_03.png').convert_alpha(),
+                       pygame.image.load('graphics/explosion/explosion_04.png').convert_alpha(),
+                       pygame.image.load('graphics/explosion/explosion_05.png').convert_alpha(),
+                       pygame.image.load('graphics/explosion/explosion_06.png').convert_alpha(),
+                       pygame.image.load('graphics/explosion/explosion_07.png').convert_alpha(),
+                       pygame.image.load('graphics/explosion/explosion_08.png').convert_alpha(),
+                       pygame.image.load('graphics/explosion/explosion_09.png').convert_alpha()]
         
         self.index = 0
         self.image = self.images[self.index]
@@ -214,9 +214,9 @@ class Explosion(pygame.sprite.Sprite):
 class Flame(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.images = [pygame.image.load('sprite/png/flames/flame_1.png').convert_alpha(),
-                       pygame.image.load('sprite/png/flames/flame_2.png').convert_alpha(),
-                       pygame.image.load('sprite/png/flames/flame_3.png').convert_alpha()]
+        self.images = [pygame.image.load('graphics/flames/flame_1.png').convert_alpha(),
+                       pygame.image.load('graphics/flames/flame_2.png').convert_alpha(),
+                       pygame.image.load('graphics/flames/flame_3.png').convert_alpha()]
         
         self.index = 0
         self.image = self.images[self.index]
