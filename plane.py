@@ -384,6 +384,8 @@ while True:
         flame_sprites.add(flame)
         dead = True
         
+    # rocket - plane
+        
     # Events (Tastatur Maus)        
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
