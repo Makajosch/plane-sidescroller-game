@@ -6,11 +6,9 @@ from random import randint
 x = 1600
 y = int(x * 9 / 16)
 
-#white = (255, 255, 255)
 gold = (212,175,55)
 
 points = 0
-
 
 # Variablen für Spieler-Flugzeug
 breite = 222
@@ -20,22 +18,17 @@ ypos = int(y / 2)
 shoot = False
 dead = False
 
-
 frame_count_b = 0 # Variable für Schussgeschwindigkeit Spieler
 frame_count_e = 0 # Variable für Abstand Feindfugzeuge
-
 
 # Gruppen für sprites
 plane_sprites = pygame.sprite.GroupSingle()
 bullet_sprites = pygame.sprite.Group()
 bomb_sprites = pygame.sprite.GroupSingle()
 flame_sprites = pygame.sprite.Group()
-
 enemy_sprites = pygame.sprite.Group()
-explosion_sprites = pygame.sprite.GroupSingle()
 rocket_sprites = pygame.sprite.Group()
-
-
+explosion_sprites = pygame.sprite.GroupSingle()
 
 # Liste für einblendbare Texte
 texte = []
@@ -55,7 +48,6 @@ explosion_sound = pygame.mixer.Sound('sounds/explosion.wav')
 explosion_sound.set_volume(0.5)
 breakdown_sound = pygame.mixer.Sound('sounds/breakdown.wav')
 bomb_sound = pygame.mixer.Sound('sounds/bomb.wav')
-
 
 # Hintergrundbilder laden
 sky = pygame.image.load('sprite/png/background/sky.png').convert()
@@ -79,8 +71,7 @@ class Plane(pygame.sprite.Sprite):
                        pygame.image.load('sprite\png\Plane\Shoot (4)50.png').convert_alpha(),
                        pygame.image.load('sprite\png\Plane\Shoot (5)50.png').convert_alpha(),
                        pygame.image.load('sprite\png\Plane\Dead (1)50.png').convert_alpha()]
-        
-              
+                      
         self.index = 0
         self.image = self.images[self.index]
         self.rect = self.image.get_rect()
@@ -90,8 +81,6 @@ class Plane(pygame.sprite.Sprite):
             self.index = 7
             self.rect.x += 5
             self.rect.y += 5
-            
-           
         elif shoot:
             if self.index > 6:
                 self.index = 0
@@ -101,9 +90,10 @@ class Plane(pygame.sprite.Sprite):
             if self.index > 1:
                 self.index = 0
             self.rect.x = xpos
-            self.rect.y = ypos    
+            self.rect.y = ypos
         self.image = self.images[self.index]
         self.index += 1
+        
         
 class Bullet(pygame.sprite.Sprite):
     def __init__(self):
@@ -118,6 +108,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.x += 50
         if self.rect.x > x:
             self.visible = False
+            
             
 class Bomb(pygame.sprite.Sprite):
     def __init__(self):
@@ -136,6 +127,7 @@ class Bomb(pygame.sprite.Sprite):
             self.rect.x = plane.rect.x +50
             self.rect.y = plane.rect.y + 112
             
+            
 class Rocket(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -147,45 +139,33 @@ class Rocket(pygame.sprite.Sprite):
         self.index = 0
         self.image = self.images[self.index]
         self.rect = self.image.get_rect()
-        
         self.rect.x = enemy.rect.x +50
         self.rect.y = enemy.rect.y + 105
         self.xspeed = enemy.xspeed
-        
-        self.visible = True
-        
+        self.visible = True        
               
     def update(self):
         if self.rect.right < x - 100:
             self.rect.x -= 20
-            diff = abs(self.rect.centery - (ypos + 111)) # Austritt bullets
+            diff = abs(self.rect.centery - (ypos + 111)) # Austritt bullets, damit rockets nicht direkt im Schusskanal anfliegen
             if diff > 40:
                 if self.rect.centery < ypos + 111:
                     self.rect.centery += 4
-                    
                 elif self.rect.centery > ypos + 111:
                     self.rect.centery -= 4
-            
             if self.rect.x < 0 :
                 self.visible = False
         else:
             self.rect.x -= self.xspeed
-         
         if self.index > 3:
             self.index = 0
         self.image = self.images[self.index]
-        self.index += 1 
-            
-           
-           
-            
-  
-
+        self.index += 1
+        
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        
         self.images = [pygame.image.load('sprite\png\enemy\enemy_yellow.png').convert_alpha(),
                        pygame.image.load('sprite\png\enemy\enemy_red.png').convert_alpha(),
                        pygame.image.load('sprite\png\enemy\enemy_2_yellow.png').convert_alpha(),
@@ -196,8 +176,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x + 111, randint(55, y - 55))
         self.xspeed = 5 + self.index * 5
-        self.alive = True
-        
+        self.alive = True        
                
     def update(self):
         self.rect.centerx -= self.xspeed
@@ -243,8 +222,6 @@ class Flame(pygame.sprite.Sprite):
         self.image = self.images[self.index]
         self.rect = self.image.get_rect()
         
-        
-        
     def update(self):
         self.rect.x = plane.rect.x - 100
         self.rect.y = plane.rect.y + 45
@@ -273,7 +250,6 @@ class Text():
 def update_window():
     global far_x, mid_x, fore_x, bomb
     
-    
     # Hintergrund
     screen.blit(sky, (0, 0))
     
@@ -295,19 +271,14 @@ def update_window():
     screen.blit(foreground, (fore_x + 2048, y - 109))
     fore_x -= 4
     
-    
-    
-    
+    # Anzeige der erreichten Punktzahl
     points_display = pygame.font.SysFont('comicsansms', 72, True).render(str(points), True, (gold))
     Rechteck = points_display.get_rect()
     Rechteck.x = 10
     Rechteck.y = 0
     screen.blit(points_display, Rechteck)
     
-    
-    
     # Sprites updaten
-    
     plane_sprites.update()
            
     if bomb.visible == False:
@@ -320,7 +291,6 @@ def update_window():
         explosion.rect.center = bomb.rect.center
         bomb = Bomb()
         bomb_sprites.add(bomb)
-    
     bomb_sprites.update()
     
     flame_sprites.update()
@@ -339,14 +309,11 @@ def update_window():
         if rocket.visible == False:
             rocket_sprites.remove(rocket)
     rocket_sprites.update()
-        
-    
     
     for explosion in explosion_sprites:
         if explosion.visible == False:
             explosion_sprites.remove(explosion)
     explosion_sprites.update()
-    
     
     for bullet in bullet_sprites:
         if bullet.visible == False:
@@ -361,11 +328,9 @@ def update_window():
     enemy_sprites.draw(screen)
     rocket_sprites.draw(screen)
     explosion_sprites.draw(screen)
-   
-    
+       
     pygame.display.update()
-    
-
+  
 plane = Plane()
 plane_sprites.add(plane)
 bomb = Bomb()
@@ -377,14 +342,11 @@ while True:
     
     # Framerate
     clock.tick(60)
-    
-    
-   
-    
     update_window()
-    
-    
+   
     # Kollisionen
+    
+    # enemy - bullet
     for enemy in pygame.sprite.groupcollide(enemy_sprites, bullet_sprites, True, True):
         explosion_sound.play()
         explosion = Explosion()
@@ -398,9 +360,7 @@ while True:
         text.rect.center = enemy.rect.center
         texte.append(text)
         
-        
-        
-        
+    # rocket - bullet  
     for rocket in pygame.sprite.groupcollide(rocket_sprites, bullet_sprites, True, True):
         explosion_sound.play()
         explosion = Explosion()
@@ -411,13 +371,8 @@ while True:
         text = Text('100')
         text.rect.center = rocket.rect.center
         texte.append(text)
-        
-        
-        
     
-    
-       
-        
+    # enemy - plane
     for enemy in pygame.sprite.groupcollide(enemy_sprites, plane_sprites, True, False):
         plane_sound.stop()
         breakdown_sound.play()
@@ -434,9 +389,7 @@ while True:
         if event.type == pygame.QUIT: sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE : sys.exit()
-            
-    keys = pygame.key.get_pressed()
-    
+    keys = pygame.key.get_pressed()    
        
     if keys[pygame.K_d] and xpos < x - breite:
         xpos += 10
@@ -456,37 +409,21 @@ while True:
         bullet = Bullet()
         bullet_sprites.add(bullet)
         frame_count_b = 0
-        
-        
-   
       
     if keys[pygame.K_b] and dead == False and bomb.drop == False:
         bomb.drop = True
         bomb_sound.play(0, 1500)
-        
- 
-       
-        
-        
-        
-        
-        
-        
+     
     
     # Neue Feindflugzeuge generieren
     if frame_count_e > randint(50, 150):
         enemy = Enemy()
         enemy_sprites.add(enemy)
-        if enemy.index <=1:
+        if enemy.index <=1: # Nur die ersten beiden enemy-typen werden mit Raketen ausgestattet
             rocket = Rocket()
             rocket_sprites.add(rocket)
-            
-           
         frame_count_e = 0
-    
-    
-           
-        
+     
     #print(len(bullet_sprites))
     #print(len(enemy_sprites))
     #print(len(explosion_sprites))
