@@ -84,7 +84,7 @@ class Plane(pygame.sprite.Sprite):
             self.rect.y += 5
         elif self.shoot:
             if self.index > 6:
-                self.index = 0
+                self.index = 2
             self.rect.x = xpos
             self.rect.y = ypos
         else:
@@ -404,10 +404,10 @@ while True:
     elif keys[pygame.K_s] and ypos < y - hoehe:
         ypos += 10
        
-    if frame_count_b > 6:
-        plane.shoot = False # Ende Schussanimation Spieler-Flugzeug (class Plane)
-    if keys[pygame.K_SPACE] and plane.dead == False and frame_count_b > 12:
-        plane.shoot = True # Start Schussanimation Spieler-Flugzeug (class Plane)
+    if frame_count_b > 5:
+        plane.shoot = False # Ende Schussanimation Spieler-Flugzeug 
+    if keys[pygame.K_SPACE] and plane.dead == False and frame_count_b > 10:
+        plane.shoot = True # Start Schussanimation Spieler-Flugzeug
         gun_sound.play()
         bullet = Bullet()
         bullet_sprites.add(bullet)
