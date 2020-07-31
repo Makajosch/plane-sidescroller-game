@@ -80,7 +80,7 @@ class Plane(pygame.sprite.Sprite):
         
     def update(self):
         if self.dead:
-            if self.index > 8:
+            if self.index > 9:
                 self.index = 7
             self.rect.x += 5
             self.rect.y += 5
