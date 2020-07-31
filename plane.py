@@ -33,7 +33,7 @@ explosion_sprites = pygame.sprite.Group()
 # Liste für einblendbare Texte
 texte = []
 
-# pygame initialisien
+# pygame initialisieren
 pygame.mixer.init(44100, -16, 1, 512) # Soundmixer zuerst
 pygame.init()
 screen = pygame.display.set_mode([x, y])
