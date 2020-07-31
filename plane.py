@@ -15,8 +15,7 @@ breite = 222
 hoehe = 151
 xpos = 0
 ypos = int(y / 2)
-shoot = False
-dead = False
+
 
 frame_count_b = 0 # Variable für Schussgeschwindigkeit Spieler
 frame_count_e = 0 # Variable für Abstand Feindfugzeuge
@@ -75,13 +74,15 @@ class Plane(pygame.sprite.Sprite):
         self.index = 0
         self.image = self.images[self.index]
         self.rect = self.image.get_rect()
+        self.shoot = False
+        self.dead = False
         
     def update(self):
-        if dead:
+        if self.dead:
             self.index = 7
             self.rect.x += 5
             self.rect.y += 5
-        elif shoot:
+        elif self.shoot:
             if self.index > 6:
                 self.index = 0
             self.rect.x = xpos
@@ -373,7 +374,7 @@ while True:
         texte.append(text)
     
     # enemy - plane
-    if dead == False:
+    if plane.dead == False:
         for enemy in pygame.sprite.groupcollide(enemy_sprites, plane_sprites, True, False):
             plane_sound.stop()
             breakdown_sound.play()
@@ -382,7 +383,7 @@ while True:
             explosion.xspeed = enemy.xspeed
             flame = Flame()
             flame_sprites.add(flame)
-            dead = True
+            plane.dead = True
         
     # rocket - plane
         
@@ -404,15 +405,15 @@ while True:
         ypos += 10
        
     if frame_count_b > 6:
-        shoot = False # Ende Schussanimation Spieler-Flugzeug (class Plane)
-    if keys[pygame.K_SPACE] and dead == False and frame_count_b > 12:
-        shoot = True # Start Schussanimation Spieler-Flugzeug (class Plane)
+        plane.shoot = False # Ende Schussanimation Spieler-Flugzeug (class Plane)
+    if keys[pygame.K_SPACE] and plane.dead == False and frame_count_b > 12:
+        plane.shoot = True # Start Schussanimation Spieler-Flugzeug (class Plane)
         gun_sound.play()
         bullet = Bullet()
         bullet_sprites.add(bullet)
         frame_count_b = 0
       
-    if keys[pygame.K_b] and dead == False and bomb.drop == False:
+    if keys[pygame.K_b] and plane.dead == False and bomb.drop == False:
         bomb.drop = True
         bomb_sound.play(0, 1500)
      
