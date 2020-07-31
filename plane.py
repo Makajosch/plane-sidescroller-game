@@ -274,10 +274,10 @@ def update_window():
     
     # Anzeige der erreichten Punktzahl
     points_display = pygame.font.SysFont('comicsansms', 72, True).render(str(points), True, (gold))
-    Rechteck = points_display.get_rect()
-    Rechteck.x = 10
-    Rechteck.y = 0
-    screen.blit(points_display, Rechteck)
+    points_rect = points_display.get_rect()
+    points_rect.x = 10
+    points_rect.y = 0
+    screen.blit(points_display, points_rect)
     
     # Sprites updaten
     plane_sprites.update()
