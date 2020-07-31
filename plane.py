@@ -69,6 +69,8 @@ class Plane(pygame.sprite.Sprite):
                        pygame.image.load('graphics/plane/shoot_3.png').convert_alpha(),
                        pygame.image.load('graphics/plane/shoot_4.png').convert_alpha(),
                        pygame.image.load('graphics/plane/shoot_5.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/dead_1.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/dead_1.png').convert_alpha(),
                        pygame.image.load('graphics/plane/dead_1.png').convert_alpha()]
                       
         self.index = 0
@@ -79,7 +81,8 @@ class Plane(pygame.sprite.Sprite):
         
     def update(self):
         if self.dead:
-            self.index = 7
+            if self.index > 8:
+                self.index = 5
             self.rect.x += 5
             self.rect.y += 5
         elif self.shoot:
@@ -253,20 +256,16 @@ def update_window():
     
     # Hintergrund
     screen.blit(sky, (0, 0))
-    
-    
+        
     screen.blit(farground, (far_x, y - 330))
     screen.blit(farground, (far_x + 2048, y - 330))
-        
-    
+       
     screen.blit(midground, (mid_x, y - 119))
     screen.blit(midground, (mid_x + 2048, y - 119))
-        
-    
+       
     screen.blit(foreground, (fore_x, y - 109))
     screen.blit(foreground, (fore_x + 2048, y - 109))
-    
-    
+       
     # Anzeige der erreichten Punktzahl
     points_display = pygame.font.SysFont('comicsansms', 72, True).render(str(points), True, (gold))
     points_rect = points_display.get_rect()
@@ -338,6 +337,8 @@ while True:
     
     # Framerate
     clock.tick(60)
+    update_window()
+    
     if far_x <= -2048:
         far_x = 0
     far_x -= 1
@@ -347,8 +348,6 @@ while True:
     if fore_x <= -2048:
         fore_x = 0
     fore_x -= 4
-    update_window()
-    
     
    
     # Kollisionen
