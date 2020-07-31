@@ -69,8 +69,8 @@ class Plane(pygame.sprite.Sprite):
                        pygame.image.load('graphics/plane/shoot_4.png').convert_alpha(),
                        pygame.image.load('graphics/plane/shoot_5.png').convert_alpha(),
                        pygame.image.load('graphics/plane/dead_1.png').convert_alpha(),
-                       pygame.image.load('graphics/plane/dead_1.png').convert_alpha(),
-                       pygame.image.load('graphics/plane/dead_1.png').convert_alpha()]
+                       pygame.image.load('graphics/plane/dead_2.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/dead_3.png').convert_alpha()]
                       
         self.index = 0
         self.image = self.images[self.index]
@@ -81,7 +81,7 @@ class Plane(pygame.sprite.Sprite):
     def update(self):
         if self.dead:
             if self.index > 8:
-                self.index = 5
+                self.index = 7
             self.rect.x += 5
             self.rect.y += 5
         elif self.shoot:
