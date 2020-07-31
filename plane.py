@@ -249,28 +249,23 @@ class Text():
 
 
 def update_window():
-    global far_x, mid_x, fore_x, bomb
+    global bomb
     
     # Hintergrund
     screen.blit(sky, (0, 0))
     
-    if far_x <= -2048:
-        far_x = 0
+    
     screen.blit(farground, (far_x, y - 330))
     screen.blit(farground, (far_x + 2048, y - 330))
-    far_x -= 1
+        
     
-    if mid_x <= -2048:
-        mid_x = 0
     screen.blit(midground, (mid_x, y - 119))
     screen.blit(midground, (mid_x + 2048, y - 119))
-    mid_x -= 2
+        
     
-    if fore_x <= -2048:
-        fore_x = 0
     screen.blit(foreground, (fore_x, y - 109))
     screen.blit(foreground, (fore_x + 2048, y - 109))
-    fore_x -= 4
+    
     
     # Anzeige der erreichten Punktzahl
     points_display = pygame.font.SysFont('comicsansms', 72, True).render(str(points), True, (gold))
@@ -343,7 +338,18 @@ while True:
     
     # Framerate
     clock.tick(60)
+    if far_x <= -2048:
+        far_x = 0
+    far_x -= 1
+    if mid_x <= -2048:
+        mid_x = 0
+    mid_x -= 2
+    if fore_x <= -2048:
+        fore_x = 0
+    fore_x -= 4
     update_window()
+    
+    
    
     # Kollisionen
     
