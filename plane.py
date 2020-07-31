@@ -24,7 +24,6 @@ frame_count_e = 0 # Variable für Abstand Feindfugzeuge
 plane_sprites = pygame.sprite.GroupSingle()
 bullet_sprites = pygame.sprite.Group()
 bomb_sprites = pygame.sprite.GroupSingle()
-flame_sprites = pygame.sprite.Group()
 enemy_sprites = pygame.sprite.Group()
 rocket_sprites = pygame.sprite.Group()
 explosion_sprites = pygame.sprite.Group()
@@ -69,6 +68,8 @@ class Plane(pygame.sprite.Sprite):
                        pygame.image.load('graphics/plane/shoot_3.png').convert_alpha(),
                        pygame.image.load('graphics/plane/shoot_4.png').convert_alpha(),
                        pygame.image.load('graphics/plane/shoot_5.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/dead_1.png').convert_alpha(),
+                       pygame.image.load('graphics/plane/dead_1.png').convert_alpha(),
                        pygame.image.load('graphics/plane/dead_1.png').convert_alpha()]
                       
         self.index = 0
@@ -79,7 +80,8 @@ class Plane(pygame.sprite.Sprite):
         
     def update(self):
         if self.dead:
-            self.index = 7
+            if self.index > 8:
+                self.index = 5
             self.rect.x += 5
             self.rect.y += 5
         elif self.shoot:
@@ -210,28 +212,8 @@ class Explosion(pygame.sprite.Sprite):
         else:
             self.visible = False
         self.index += 1
-        
-   
-class Flame(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.images = [pygame.image.load('graphics/flames/flame_1.png').convert_alpha(),
-                       pygame.image.load('graphics/flames/flame_2.png').convert_alpha(),
-                       pygame.image.load('graphics/flames/flame_3.png').convert_alpha()]
-        
-        self.index = 0
-        self.image = self.images[self.index]
-        self.rect = self.image.get_rect()
-        
-    def update(self):
-        self.rect.x = plane.rect.x - 100
-        self.rect.y = plane.rect.y + 45
-        if self.index > 2:
-            self.index = 0
-        self.image = self.images[self.index]
-        self.index += 1
-
-
+ 
+ 
 class Text():
     def __init__(self, inhalt):
         self.text_object = pygame.font.SysFont('comicsansms', 48, True).render(inhalt, True, (gold))
@@ -249,29 +231,20 @@ class Text():
 
 
 def update_window():
-    global far_x, mid_x, fore_x, bomb
+    global bomb
     
     # Hintergrund
     screen.blit(sky, (0, 0))
-    
-    if far_x <= -2048:
-        far_x = 0
+        
     screen.blit(farground, (far_x, y - 330))
     screen.blit(farground, (far_x + 2048, y - 330))
-    far_x -= 1
-    
-    if mid_x <= -2048:
-        mid_x = 0
+       
     screen.blit(midground, (mid_x, y - 119))
     screen.blit(midground, (mid_x + 2048, y - 119))
-    mid_x -= 2
-    
-    if fore_x <= -2048:
-        fore_x = 0
+       
     screen.blit(foreground, (fore_x, y - 109))
     screen.blit(foreground, (fore_x + 2048, y - 109))
-    fore_x -= 4
-    
+       
     # Anzeige der erreichten Punktzahl
     points_display = pygame.font.SysFont('comicsansms', 72, True).render(str(points), True, (gold))
     points_rect = points_display.get_rect()
@@ -293,8 +266,6 @@ def update_window():
         bomb = Bomb()
         bomb_sprites.add(bomb)
     bomb_sprites.update()
-    
-    flame_sprites.update()
     
     for text in texte:
         if text.visible == False:
@@ -325,7 +296,6 @@ def update_window():
     bomb_sprites.draw(screen)
     plane_sprites.draw(screen)
     bullet_sprites.draw(screen)
-    flame_sprites.draw(screen)
     enemy_sprites.draw(screen)
     rocket_sprites.draw(screen)
     explosion_sprites.draw(screen)
@@ -344,6 +314,17 @@ while True:
     # Framerate
     clock.tick(60)
     update_window()
+    
+    if far_x <= -2048:
+        far_x = 0
+    far_x -= 1
+    if mid_x <= -2048:
+        mid_x = 0
+    mid_x -= 2
+    if fore_x <= -2048:
+        fore_x = 0
+    fore_x -= 4
+    
    
     # Kollisionen
     
@@ -381,8 +362,6 @@ while True:
             explosion = Explosion()
             explosion_sprites.add(explosion)
             explosion.xspeed = enemy.xspeed
-            flame = Flame()
-            flame_sprites.add(flame)
             plane.dead = True
         
     # rocket - plane
