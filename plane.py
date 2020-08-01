@@ -228,11 +228,33 @@ class Text():
             self.visible = False
         self.counter += 1
 
-
+def visible():
+    for text in texte:
+        if text.visible == False:
+            texte.remove(text)
+        Text.update(text)
+        
+    for enemy in enemy_sprites:
+        if enemy.alive == False:
+            enemy_sprites.remove(enemy)
+            
+    for rocket in rocket_sprites:
+        if rocket.visible == False:
+            rocket_sprites.remove(rocket)
+            
+    for explosion in explosion_sprites:
+        if explosion.visible == False:
+            explosion_sprites.remove(explosion)
+            
+    for bullet in bullet_sprites:
+        if bullet.visible == False:
+            bullet_sprites.remove(bullet)
+    
+    
+    
 
 def update_window():
-    global bomb
-    
+        
     # Hintergrund
     screen.blit(sky, (0, 0))
         
@@ -253,46 +275,15 @@ def update_window():
     screen.blit(points_display, points_rect)
     
     # Sprites updaten
+    visible()
     plane_sprites.update()
-           
-    if bomb.visible == False:
-        bomb_sound.stop()
-        bomb_sprites.remove(bomb)
-        explosion_sound.play()
-        explosion = Explosion()
-        explosion_sprites.add(explosion)
-        explosion.xspeed = 0
-        explosion.rect.center = bomb.rect.center
-        bomb = Bomb()
-        bomb_sprites.add(bomb)
     bomb_sprites.update()
-    
-    for text in texte:
-        if text.visible == False:
-            texte.remove(text)
-        Text.update(text)
-        
-    for enemy in enemy_sprites:
-        if enemy.alive == False:
-            enemy_sprites.remove(enemy)
     enemy_sprites.update()
-    
-    for rocket in rocket_sprites:
-        if rocket.visible == False:
-            rocket_sprites.remove(rocket)
     rocket_sprites.update()
-    
-    for explosion in explosion_sprites:
-        if explosion.visible == False:
-            explosion_sprites.remove(explosion)
     explosion_sprites.update()
-    
-    for bullet in bullet_sprites:
-        if bullet.visible == False:
-            bullet_sprites.remove(bullet)
     bullet_sprites.update()
     
-    
+    # Sprites zeichnen
     bomb_sprites.draw(screen)
     plane_sprites.draw(screen)
     bullet_sprites.draw(screen)
@@ -313,6 +304,7 @@ while True:
     
     # Framerate
     clock.tick(60)
+    
     update_window()
     
     if far_x <= -2048:
@@ -395,6 +387,17 @@ while True:
     if keys[pygame.K_b] and plane.dead == False and bomb.drop == False:
         bomb.drop = True
         bomb_sound.play(0, 1500)
+        
+    if bomb.visible == False:
+        bomb_sound.stop()
+        bomb_sprites.remove(bomb)
+        explosion_sound.play()
+        explosion = Explosion()
+        explosion_sprites.add(explosion)
+        explosion.xspeed = 0
+        explosion.rect.center = bomb.rect.center
+        bomb = Bomb()
+        bomb_sprites.add(bomb)
      
     
     # Neue Feindflugzeuge generieren
