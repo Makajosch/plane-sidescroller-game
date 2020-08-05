@@ -53,6 +53,7 @@ farground = pygame.image.load('graphics/background//farground_mountains.png').co
 midground = pygame.image.load('graphics/background//midground_mountains.png').convert_alpha()
 foreground = pygame.image.load('graphics/background/foreground_mountains.png').convert_alpha()
 
+# Variablen für parallax-scrolling
 far_x = 0
 mid_x = 0
 fore_x = 0
@@ -347,16 +348,26 @@ while True:
         texte.append(text)
     
     # enemy - plane
-    if plane.dead == False:
-        for enemy in pygame.sprite.groupcollide(enemy_sprites, plane_sprites, True, False):
-            plane_sound.stop()
-            breakdown_sound.play()
-            explosion = Explosion()
-            explosion_sprites.add(explosion)
-            explosion.xspeed = enemy.xspeed
-            plane.dead = True
+    for enemy in pygame.sprite.groupcollide(enemy_sprites, plane_sprites, True, False):
+        plane_sound.stop()
+        breakdown_sound.play()
+        explosion_sound.play()
+        explosion = Explosion()
+        explosion_sprites.add(explosion)
+        explosion.xspeed = enemy.xspeed
+        explosion.rect.center = enemy.rect.center
+        plane.dead = True
         
     # rocket - plane
+    for rocket in pygame.sprite.groupcollide(rocket_sprites, plane_sprites, True, False):
+            plane_sound.stop()
+            breakdown_sound.play()
+            explosion_sound.play()
+            explosion = Explosion()
+            explosion_sprites.add(explosion)
+            explosion.xspeed = rocket.xspeed
+            explosion.rect.center = rocket.rect.center
+            plane.dead = True
         
     # Events (Tastatur Maus)        
     for event in pygame.event.get():
